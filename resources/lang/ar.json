@@ -1,0 +1,9 @@
+{
+    "Name": "اسم",
+    "Description": "وصف",
+    "Arabic": "العربية",
+    "English": "الانجليزية",
+    "Category": "قسم",
+    "Parent": "القسم الرئيسي",
+    "Image": "صورة"
+}
