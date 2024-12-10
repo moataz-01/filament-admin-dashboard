@@ -18,6 +18,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Resources\Concerns\Translatable;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\HeaderActionsPosition;
+use Filament\Tables\Enums\ActionsPosition;
 
 class CategoryResource extends Resource
 {
@@ -53,10 +56,6 @@ class CategoryResource extends Resource
                 TextInput::make('name')
                     ->label(trans('Name'))
                     ->required()
-                    ->validationAttribute(trans('Name'))
-                    ->validationMessages([
-                        'en.regex' => 'sddddddddddd'
-                    ])
                     ->translatable(true, ['en' => trans('English'), 'ar' => trans('Arabic')], [
                         'en' => ['required', 'string', 'max:255', 'regex:/^[\s\p{Latin}0-9]+$/u'],
                         'ar' => ['required', 'string', 'max:255', 'regex:/^[\s\p{Arabic}0-9]+$/u'],
@@ -72,7 +71,6 @@ class CategoryResource extends Resource
                     ->label(trans('Parent'))
                     ->options($categories)
                     ->searchable(),
-
                 SpatieMediaLibraryFileUpload::make('image')
                     ->label(trans('Image'))
                     ->required(),
@@ -109,6 +107,9 @@ class CategoryResource extends Resource
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
+            ])
+            ->headerActions([
+                Tables\Actions\LocaleSwitcher::make(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

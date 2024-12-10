@@ -62,15 +62,17 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
-            ->plugin(
+            ->plugins([
+                \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make(),
                 FilamentTranslatableFieldsPlugin::make()
                     ->supportedLocales([
                         'en' => 'English',
                         'ar' => 'Arabic',
                     ]),
-                // SpatieLaravelTranslatablePlugin::make()
-                //     ->defaultLocales(['ar', 'en']),
-            )
-            ->databaseNotifications();
+                SpatieLaravelTranslatablePlugin::make()
+                    ->defaultLocales(['ar', 'en']),
+            ])
+            ->databaseNotifications()
+            ->spa();
     }
 }

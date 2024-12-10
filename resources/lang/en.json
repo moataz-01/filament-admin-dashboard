@@ -3,5 +3,6 @@
     "Description": "Description",
     "Arabic": "Arabic",
     "English": "English",
-    "Category": "Category"
+    "Category": "Category",
+    "admins": "Admins"
 }
