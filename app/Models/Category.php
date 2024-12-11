@@ -6,15 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Contracts\Auditable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Spatie\Translatable\HasTranslations;
 
-class Category extends Model implements HasMedia
+class Category extends Model implements HasMedia, Auditable
 {
-    use SoftDeletes, HasTranslations, HasSlug, InteractsWithMedia;
+    use SoftDeletes, HasTranslations, HasSlug, InteractsWithMedia, \OwenIt\Auditing\Auditable;
 
     protected $fillable = ['name', 'slug', 'description', 'parent_id'];
 

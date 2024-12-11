@@ -21,6 +21,7 @@ use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\HeaderActionsPosition;
 use Filament\Tables\Enums\ActionsPosition;
+use Tapp\FilamentAuditing\RelationManagers\AuditsRelationManager;
 
 class CategoryResource extends Resource
 {
@@ -130,6 +131,7 @@ class CategoryResource extends Resource
     {
         return [
             ParentRelationManager::class,
+            AuditsRelationManager::class,
         ];
     }
 

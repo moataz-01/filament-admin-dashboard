@@ -19,6 +19,7 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Filament\SpatieLaravelTranslatablePlugin;
 use Outerweb\FilamentTranslatableFields\Filament\Plugins\FilamentTranslatableFieldsPlugin;
+use ShuvroRoy\FilamentSpatieLaravelHealth\FilamentSpatieLaravelHealthPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -71,6 +72,8 @@ class AdminPanelProvider extends PanelProvider
                     ]),
                 SpatieLaravelTranslatablePlugin::make()
                     ->defaultLocales(['ar', 'en']),
+                \BezhanSalleh\FilamentExceptions\FilamentExceptionsPlugin::make(),
+                FilamentSpatieLaravelHealthPlugin::make(),
             ])
             ->databaseNotifications()
             ->spa();
