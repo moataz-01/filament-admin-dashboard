@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Exports\CategoryExporter;
 use App\Filament\Resources\CategoryResource\Pages;
 use App\Filament\Resources\CategoryResource\RelationManagers;
 use App\Filament\Resources\CategoryResource\RelationManagers\ParentRelationManager;
@@ -19,6 +20,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Resources\Concerns\Translatable;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\ExportAction;
 use Filament\Tables\Actions\HeaderActionsPosition;
 use Filament\Tables\Enums\ActionsPosition;
 use Tapp\FilamentAuditing\RelationManagers\AuditsRelationManager;
@@ -111,6 +113,7 @@ class CategoryResource extends Resource
             ])
             ->headerActions([
                 Tables\Actions\LocaleSwitcher::make(),
+                ExportAction::make()->exporter(CategoryExporter::class),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

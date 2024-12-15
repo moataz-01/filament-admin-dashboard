@@ -6,7 +6,7 @@ return [
         'model' => 'استثناء',
         'model_plural' => 'الاستثناءات',
         'navigation' => 'استثناء',
-        'navigation_group' => 'الإعدادات',
+        'navigation_group' => 'إعدادات',
 
         'tabs' => [
             'exception' => 'استثناء',

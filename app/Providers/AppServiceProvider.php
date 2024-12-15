@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Admin;
 use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Spatie\Health\Checks\Checks\CacheCheck;
@@ -21,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(Authenticatable::class, Admin::class);
     }
 
     /**
