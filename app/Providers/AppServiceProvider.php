@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Admin;
+use BezhanSalleh\FilamentExceptions\Models\Exception;
 use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Gate;
@@ -49,5 +50,7 @@ class AppServiceProvider extends ServiceProvider
             CacheCheck::new(),
             DatabaseSizeCheck::new(),
         ]);
+
+        Gate::policy(Exception::class, \App\Policies\ExceptionPolicy::class);
     }
 }

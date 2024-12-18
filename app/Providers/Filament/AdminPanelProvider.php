@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\HealthCheckResults;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -39,8 +40,7 @@ class AdminPanelProvider extends PanelProvider
                 'success' => Color::Emerald,
                 'warning' => Color::Orange,
             ])
-            ->brandLogo(asset('images/logo.png'))
-            ->favicon(asset('images/favicon.png'))
+            ->brandLogo(asset('media/' . setting('site_logo')))
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
@@ -75,7 +75,12 @@ class AdminPanelProvider extends PanelProvider
                 SpatieLaravelTranslatablePlugin::make()
                     ->defaultLocales(['ar', 'en']),
                 \BezhanSalleh\FilamentExceptions\FilamentExceptionsPlugin::make(),
-                FilamentSpatieLaravelHealthPlugin::make(),
+                FilamentSpatieLaravelHealthPlugin::make()
+                ->usingPage(HealthCheckResults::class),
+                \TomatoPHP\FilamentSettingsHub\FilamentSettingsHubPlugin::make()
+                    ->allowSiteSettings()
+                    ->allowSocialMenuSettings()
+                    ->allowShield(),
             ])
             ->databaseNotifications()
             ->spa();
