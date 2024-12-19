@@ -20,6 +20,7 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Filament\SpatieLaravelTranslatablePlugin;
 use Outerweb\FilamentTranslatableFields\Filament\Plugins\FilamentTranslatableFieldsPlugin;
+use pxlrbt\FilamentEnvironmentIndicator\EnvironmentIndicatorPlugin;
 use ShuvroRoy\FilamentSpatieLaravelHealth\FilamentSpatieLaravelHealthPlugin;
 
 class AdminPanelProvider extends PanelProvider
@@ -41,6 +42,7 @@ class AdminPanelProvider extends PanelProvider
                 'warning' => Color::Orange,
             ])
             ->brandLogo(asset('media/' . setting('site_logo')))
+            ->favicon(asset('media/'. setting('site_profile')))
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
@@ -74,13 +76,14 @@ class AdminPanelProvider extends PanelProvider
                     ]),
                 SpatieLaravelTranslatablePlugin::make()
                     ->defaultLocales(['ar', 'en']),
-                \BezhanSalleh\FilamentExceptions\FilamentExceptionsPlugin::make(),
+                // \BezhanSalleh\FilamentExceptions\FilamentExceptionsPlugin::make(),
                 FilamentSpatieLaravelHealthPlugin::make()
-                ->usingPage(HealthCheckResults::class),
+                    ->usingPage(HealthCheckResults::class),
                 \TomatoPHP\FilamentSettingsHub\FilamentSettingsHubPlugin::make()
                     ->allowSiteSettings()
                     ->allowSocialMenuSettings()
                     ->allowShield(),
+                EnvironmentIndicatorPlugin::make(),
             ])
             ->databaseNotifications()
             ->spa();

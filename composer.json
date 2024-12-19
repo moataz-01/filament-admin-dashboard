@@ -18,6 +18,7 @@
         "livewire/livewire": "^3.5",
         "outerweb/filament-translatable-fields": "^2.0",
         "owen-it/laravel-auditing": "^13.6",
+        "pxlrbt/filament-environment-indicator": "^2.1",
         "shuvroroy/filament-spatie-laravel-health": "^2.2",
         "spatie/laravel-permission": "^6.10",
         "spatie/laravel-sluggable": "^3.6",
