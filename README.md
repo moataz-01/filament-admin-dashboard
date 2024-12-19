@@ -84,7 +84,7 @@ npm run build
 To start the development server:
 
 ```bash
-npm run dev
+composer run dev
 ```
 
 This will run the following services concurrently:
