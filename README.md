@@ -28,7 +28,7 @@ A modern admin dashboard built with Laravel 11 and Filament 3, featuring a compr
 1. Clone the repository:
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/moataz-01/filament-admin-dashboard.git
 cd <project-folder>
 ```
 
