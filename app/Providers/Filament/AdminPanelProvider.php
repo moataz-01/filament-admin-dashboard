@@ -75,8 +75,7 @@ class AdminPanelProvider extends PanelProvider
                         'ar' => 'Arabic',
                     ]),
                 SpatieLaravelTranslatablePlugin::make()
-                    ->defaultLocales(['ar', 'en']),
-                // \BezhanSalleh\FilamentExceptions\FilamentExceptionsPlugin::make(),
+                    ->defaultLocales(config('app.available_locales', ['en'])),
                 FilamentSpatieLaravelHealthPlugin::make()
                     ->usingPage(HealthCheckResults::class),
                 \TomatoPHP\FilamentSettingsHub\FilamentSettingsHubPlugin::make()

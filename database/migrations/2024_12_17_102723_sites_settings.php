@@ -9,7 +9,7 @@ return new class extends SettingsMigration
         $this->migrator->add('sites.site_name', 'dashboard');
         $this->migrator->add('sites.site_description', 'Filament Admin Dashboard');
         $this->migrator->add('sites.site_keywords', 'Dashboard, Marketing, Programming');
-        $this->migrator->add('sites.site_favicon', '');
+        $this->migrator->add('sites.site_profile', '');
         $this->migrator->add('sites.site_logo', '');
         $this->migrator->add('sites.site_author', 'Moataz Mosa');
         $this->migrator->add('sites.site_email', 'moatazsayed119@gmail.com');
