@@ -4,17 +4,13 @@ namespace App\Filament\Resources;
 
 use App\Filament\Exports\CategoryExporter;
 use App\Filament\Resources\CategoryResource\Pages;
-use App\Filament\Resources\CategoryResource\RelationManagers;
 use App\Filament\Resources\CategoryResource\RelationManagers\ParentRelationManager;
 use App\Models\Category;
 use App\Traits\HasTranslatableFields;
-use Filament\Forms;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Tabs;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -23,14 +19,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Resources\Concerns\Translatable;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
-use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\ExportAction;
-use Filament\Tables\Actions\HeaderActionsPosition;
-use Filament\Tables\Enums\ActionsPosition;
-use Illuminate\Support\Facades\App;
 use Tapp\FilamentAuditing\RelationManagers\AuditsRelationManager;
-
-use function Laravel\Prompts\textarea;
 
 class CategoryResource extends Resource
 {
@@ -85,15 +75,16 @@ class CategoryResource extends Resource
         return $table
             ->columns([
                 SpatieMediaLibraryImageColumn::make('image')
-                    ->label(trans('Image')),
+                    ->label(trans('general.image')),
                 Tables\Columns\TextColumn::make('name')
-                    ->label(trans('Name'))
+                    ->label(trans('general.name'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('description')
-                    ->label(trans('Description'))
-                    ->searchable(),
+                    ->label(trans('general.description'))
+                    ->searchable()
+                    ->limit(50),
                 Tables\Columns\TextColumn::make('parent.name')
-                    ->label(trans('Parent'))
+                    ->label(trans('general.parent_category'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

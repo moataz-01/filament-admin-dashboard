@@ -56,7 +56,7 @@ return [
     */
 
     'events' => [
-        'created',
+        // 'created',
         'updated',
         'deleted',
         'restored'

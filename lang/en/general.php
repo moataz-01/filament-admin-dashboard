@@ -9,4 +9,8 @@ return [
     'image' => 'Image',
     'Arabic' => 'Arabic',
     'English' => 'English',
+    'admin' => 'Admin',
+    'admins' => 'Admins',
+    'settings' => 'Settings',
+    'insights' => 'Insights'
 ];
