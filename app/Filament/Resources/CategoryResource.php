@@ -7,9 +7,13 @@ use App\Filament\Resources\CategoryResource\Pages;
 use App\Filament\Resources\CategoryResource\RelationManagers;
 use App\Filament\Resources\CategoryResource\RelationManagers\ParentRelationManager;
 use App\Models\Category;
+use App\Traits\HasTranslatableFields;
 use Filament\Forms;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Forms\Components\Tabs;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -23,27 +27,27 @@ use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\ExportAction;
 use Filament\Tables\Actions\HeaderActionsPosition;
 use Filament\Tables\Enums\ActionsPosition;
+use Illuminate\Support\Facades\App;
 use Tapp\FilamentAuditing\RelationManagers\AuditsRelationManager;
+
+use function Laravel\Prompts\textarea;
 
 class CategoryResource extends Resource
 {
-    use Translatable;
+    use Translatable, HasTranslatableFields;
 
     protected static ?string $model = Category::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $modelLabel = 'Category';
-    protected static ?string $pluralModelLabel = 'Categories';
-
     public static function getModelLabel(): string
     {
-        return app()->getLocale() === 'ar' ? 'قسم' : static::$modelLabel;
+        return __('general.category');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return app()->getLocale() === 'ar' ? 'اقسام' : static::$pluralModelLabel;
+        return __('general.categories');
     }
 
     public static function form(Form $form): Form
@@ -54,29 +58,25 @@ class CategoryResource extends Resource
                 fn(Builder $query) => $query->where('id', '!=', $form->getRecord()->id)
             )
             ->pluck('name', 'id');
+
         return $form
             ->schema([
-                TextInput::make('name')
-                    ->label(trans('Name'))
-                    ->required()
-                    ->translatable(true, ['en' => trans('English'), 'ar' => trans('Arabic')], [
-                        'en' => ['required', 'string', 'max:255', 'regex:/^[\s\p{Latin}0-9]+$/u'],
-                        'ar' => ['required', 'string', 'max:255', 'regex:/^[\s\p{Arabic}0-9]+$/u'],
-                    ]),
-                Forms\Components\Textarea::make('description')
-                    ->label(trans('Description'))
-                    ->required()
-                    ->translatable(true, ['en' => trans('English'), 'ar' => trans('Arabic')], [
-                        'en' => ['required', 'string', 'regex:/^[\s\p{Latin}0-9]+$/u'],
-                        'ar' => ['required', 'string', 'regex:/^[\s\p{Arabic}0-9]+$/u'],
-                    ]),
+                Section::make()->schema([
+                    Tabs::make('Tabs')
+                        ->tabs(self::buildLocaleTabs([
+                            ['name' => 'name', 'type' => 'text', 'rules' => ['required', 'string', 'max:255']],
+                            ['name' => 'description', 'type' => 'textarea', 'rules' => ['string', 'required']],
+                        ])),
+                ]),
                 Select::make('parent_id')
-                    ->label(trans('Parent'))
+                    ->label(trans('general.parent_category'))
                     ->options($categories)
                     ->searchable(),
+
                 SpatieMediaLibraryFileUpload::make('image')
-                    ->label(trans('Image'))
-                    ->required(),
+                    ->label(trans('general.image'))
+                    ->required()
+                    ->image(),
             ]);
     }
 

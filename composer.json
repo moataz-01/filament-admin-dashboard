@@ -17,7 +17,6 @@
         "laravel/pulse": "^1.3",
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.5",
-        "outerweb/filament-translatable-fields": "^2.0",
         "owen-it/laravel-auditing": "^13.6",
         "pxlrbt/filament-environment-indicator": "^2.1",
         "shuvroroy/filament-spatie-laravel-health": "^2.2",

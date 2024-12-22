@@ -10,4 +10,9 @@ class HealthCheckResults extends BaseHealthCheckResults
     {
         return auth()->check() && auth()->user()->can('page_HealthCheckResults');
     }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return trans('general.settings');
+    }
 }

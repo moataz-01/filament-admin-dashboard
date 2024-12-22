@@ -47,7 +47,7 @@ class AppServiceProvider extends ServiceProvider
         // Configure the Filament Language Switch.
         LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
             // Get available locales from config
-            $locales = config('app.available_locales', ['en']); // Default to English if not set
+            $locales = array_keys(config('app.available_locales', ['en' => 'English'])); // Default to English if not set
             $switch->locales($locales);
         });
 
@@ -60,8 +60,5 @@ class AppServiceProvider extends ServiceProvider
             ->toArray();
 
         Health::checks($enabledChecks);
-
-        // Register a policy for the Filament Exceptions package. This defines authorization rules for exceptions.
-        Gate::policy(Exception::class, \App\Policies\ExceptionPolicy::class);
     }
 }

@@ -69,13 +69,8 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->plugins([
                 \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make(),
-                FilamentTranslatableFieldsPlugin::make()
-                    ->supportedLocales([
-                        'en' => 'English',
-                        'ar' => 'Arabic',
-                    ]),
                 SpatieLaravelTranslatablePlugin::make()
-                    ->defaultLocales(config('app.available_locales', ['en'])),
+                    ->defaultLocales(array_keys(config('app.available_locales', ['en' => 'English']))),
                 FilamentSpatieLaravelHealthPlugin::make()
                     ->usingPage(HealthCheckResults::class),
                 \TomatoPHP\FilamentSettingsHub\FilamentSettingsHubPlugin::make()

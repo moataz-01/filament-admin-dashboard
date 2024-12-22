@@ -24,7 +24,18 @@ class Insights extends Page
 
     protected static string $view = 'filament.pages.insights';
 
-    protected static ?string $navigationGroup = 'Settings';
+    public static function getNavigationLabel(): string
+    {
+        return trans('general.insights');
+    }
+    public function getTitle(): string
+    {
+        return trans('general.insights');
+    }
+    public static function getNavigationGroup(): ?string
+    {
+        return trans('general.settings');
+    }
 
     public static function canAccess(): bool
     {

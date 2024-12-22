@@ -84,6 +84,8 @@ return [
 
     'faker_locale' => env('APP_FAKER_LOCALE', 'en_US'),
 
+    'available_locales' => ['ar' => 'Arabic', 'en' => 'English'],
+
     /*
     |--------------------------------------------------------------------------
     | Encryption Key
@@ -122,7 +124,4 @@ return [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
-
-    'available_locales' => ['ar', 'en'],
-
 ];

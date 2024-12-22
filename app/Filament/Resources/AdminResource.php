@@ -111,11 +111,11 @@ class AdminResource extends Resource
     }
     public static function getPluralModelLabel(): string
     {
-        return trans('admins');
+        return trans('general.admins');
     }
 
     public static function getModelLabel(): string
     {
-        return trans('admin');
+        return trans('general.admin');
     }
 }
