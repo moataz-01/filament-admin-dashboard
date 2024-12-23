@@ -70,7 +70,7 @@ DB_PASSWORD=your_password
 7. Run migrations:
 
 ```bash
-php artisan migrate
+php artisan migrate --seed
 ```
 
 8. Build assets:
