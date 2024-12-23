@@ -19,7 +19,8 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Filament\SpatieLaravelTranslatablePlugin;
-use Outerweb\FilamentTranslatableFields\Filament\Plugins\FilamentTranslatableFieldsPlugin;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use pxlrbt\FilamentEnvironmentIndicator\EnvironmentIndicatorPlugin;
 use ShuvroRoy\FilamentSpatieLaravelHealth\FilamentSpatieLaravelHealthPlugin;
 
@@ -33,53 +34,101 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->profile()
-            ->colors([
-                'danger' => Color::Rose,
-                'gray' => Color::Gray,
-                'info' => Color::Blue,
-                'primary' => Color::Indigo,
-                'success' => Color::Emerald,
-                'warning' => Color::Orange,
-            ])
-            ->brandLogo(asset('media/' . setting('site_logo')))
-            ->favicon(asset('media/' . setting('site_profile')))
+            ->colors($this->getColorScheme())
+            ->brandLogo($this->loadBrandLogo())
+            ->favicon($this->loadFavicon())
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
                 Pages\Dashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
-            ->widgets([
-                Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
-            ])
-            ->middleware([
-                EncryptCookies::class,
-                AddQueuedCookiesToResponse::class,
-                StartSession::class,
-                AuthenticateSession::class,
-                ShareErrorsFromSession::class,
-                VerifyCsrfToken::class,
-                SubstituteBindings::class,
-                DisableBladeIconComponents::class,
-                DispatchServingFilamentEvent::class,
-            ])
+            ->widgets($this->getWidgets())
+            ->middleware($this->getMiddleware())
             ->authMiddleware([
                 Authenticate::class,
             ])
-            ->plugins([
-                \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make(),
-                SpatieLaravelTranslatablePlugin::make()
-                    ->defaultLocales(array_keys(config('app.available_locales', ['en' => 'English']))),
-                FilamentSpatieLaravelHealthPlugin::make()
-                    ->usingPage(HealthCheckResults::class),
-                \TomatoPHP\FilamentSettingsHub\FilamentSettingsHubPlugin::make()
-                    ->allowSiteSettings()
-                    ->allowSocialMenuSettings()
-                    ->allowShield(),
-                EnvironmentIndicatorPlugin::make(),
-            ])
+            ->plugins($this->loadPlugins())
             ->databaseNotifications()
             ->spa();
+    }
+
+    private function getColorScheme(): array
+    {
+        return [
+            'danger' => Color::Rose,
+            'gray' => Color::Gray,
+            'info' => Color::Blue,
+            'primary' => Color::Indigo,
+            'success' => Color::Emerald,
+            'warning' => Color::Orange,
+        ];
+    }
+
+    private function getWidgets(): array
+    {
+        return [
+            Widgets\AccountWidget::class,
+            Widgets\FilamentInfoWidget::class,
+        ];
+    }
+
+    private function getMiddleware(): array
+    {
+        return [
+            EncryptCookies::class,
+            AddQueuedCookiesToResponse::class,
+            StartSession::class,
+            AuthenticateSession::class,
+            ShareErrorsFromSession::class,
+            VerifyCsrfToken::class,
+            SubstituteBindings::class,
+            DisableBladeIconComponents::class,
+            DispatchServingFilamentEvent::class,
+        ];
+    }
+
+    private function loadPlugins(): array
+    {
+        if (!$this->isDatabaseConnected()) {
+            return [];
+        }
+
+        return [
+            \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make(),
+            SpatieLaravelTranslatablePlugin::make()
+                ->defaultLocales(array_keys(config('app.available_locales', ['en' => 'English']))),
+            FilamentSpatieLaravelHealthPlugin::make()
+                ->usingPage(HealthCheckResults::class),
+            \TomatoPHP\FilamentSettingsHub\FilamentSettingsHubPlugin::make()
+                ->allowSiteSettings()
+                ->allowSocialMenuSettings()
+                ->allowShield(),
+            EnvironmentIndicatorPlugin::make(),
+        ];
+    }
+
+    private function loadBrandLogo(): string
+    {
+        return $this->loadSetting('site_logo');
+    }
+
+    private function loadFavicon(): string
+    {
+        return $this->loadSetting('site_profile');
+    }
+
+    private function loadSetting(string $key): string
+    {
+        if (!Schema::hasTable('settings')) {
+            return '';
+        }
+
+        return asset('media/' . setting($key));
+    }
+
+    private function isDatabaseConnected(): bool
+    {
+        return DB::connection()->getDatabaseName() !== null;
     }
 }
