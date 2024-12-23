@@ -19,6 +19,7 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Filament\SpatieLaravelTranslatablePlugin;
+use Illuminate\Support\Env;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use pxlrbt\FilamentEnvironmentIndicator\EnvironmentIndicatorPlugin;
@@ -90,7 +91,7 @@ class AdminPanelProvider extends PanelProvider
 
     private function loadPlugins(): array
     {
-        if (!$this->isDatabaseConnected()) {
+        if (!$this->isDatabaseDeclared()) {
             return [];
         }
 
@@ -120,15 +121,14 @@ class AdminPanelProvider extends PanelProvider
 
     private function loadSetting(string $key): string
     {
-        if (!Schema::hasTable('settings')) {
-            return '';
+        if ($this->isDatabaseDeclared() && Schema::hasTable('settings')) {
+            return asset('media/' . setting($key));
         }
-
-        return asset('media/' . setting($key));
+        return '';
     }
 
-    private function isDatabaseConnected(): bool
+    private function isDatabaseDeclared(): bool
     {
-        return DB::connection()->getDatabaseName() !== null;
+        return Env::get('DB_DATABASE') !== null;
     }
 }
