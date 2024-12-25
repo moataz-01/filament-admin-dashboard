@@ -72,8 +72,12 @@ DB_PASSWORD=your_password
 ```bash
 php artisan migrate --seed
 ```
+8. create Super Admin
+```bash
+php artisan shield:super-admin
+```
 
-8. Build assets:
+9. Build assets:
 
 ```bash
 npm run build
